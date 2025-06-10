@@ -1,0 +1,5 @@
+ㅁ API 등록
+https://api.telegram.org/bot<YOUR_BOT_TOKEN>/setWebhook?url=<Deploy URL>/webhook
+
+ㅁ API 확인
+https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getWebhookInfo
