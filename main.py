@@ -17,6 +17,9 @@ SEARCH_URL = os.environ.get("SEARCH_URL")
 # Flask 서버
 app = Flask(__name__)
 
+monitor_started = False
+monitor_lock = threading.Lock()
+
 # 🚆 모니터링 데이터
 train_numbers = []
 previous_status = {}
@@ -264,6 +267,10 @@ def monitor_loop():
 
 
 # 💡 모니터링 쓰레드 시작
-@app.before_first_request
 def start_monitor_thread() :
-    threading.Thread(target=monitor_loop, daemon=True).start()
+    global monitor_started
+    with monitor_lock :
+        if not monitor_started :
+            threading.Thread(target=monitor_loop, daemon=True).start()
+            monitor_started = True
+app.before_request(start_monitor_thread)
